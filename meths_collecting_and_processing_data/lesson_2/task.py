@@ -86,7 +86,8 @@ for vacancy in vacancies:
             'Валюта': currency
         },
         'Ссылка на вакансию': vacancy.find('a', {'class': 'bloko-link'}
-                                           )['href']
+                                           )['href'],
+        'Сайт': site.replace('https://', '')
     }
 
     total_vacancy_result.append(vacancies_data)
