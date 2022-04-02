@@ -1,0 +1,14 @@
+{
+    "at_alt_temp": {
+        "units": "K",
+        "value": 819.8162841796875
+    },
+    "exospheric_temp": {
+        "units": "K",
+        "value": 827.4019775390625
+    },
+    "total_mass_density": {
+        "units": "kg/m3",
+        "value": 1.1803456649583932e-11
+    }
+}
