@@ -23,6 +23,8 @@ SITE = 'https://hh.ru'
 
 client = MongoClient('127.0.0.1', 27017)
 db = client['vacancies_040422']
+site_file = 'site.html'
+
 
 def search_words() -> str:
     """Получение строки для подстановки в строку запроса"""
@@ -59,10 +61,15 @@ def get_request(site, search) -> None:
                           'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 '
                           'Safari/537.36'}
         response = requests.get(url, headers=headers)
-        if not response.ok:
+        dom = bs(response.text, 'html.parser')
+
+        check_vacancy = dom.find_all('div', {
+            'class': 'vacancy-serp-item-body__main-info'})
+
+        if not response.ok and not check_vacancy:
             break
 
-        with open('site.html', 'a', encoding='utf-8') as f:
+        with open(site_file, 'a', encoding='utf-8') as f:
             f.write(response.text)
         page += 1
         print(f'Закончил {page - 1} страницу')
@@ -79,7 +86,7 @@ def hash_function(item: dict) -> str:
     return _hash.hexdigest()
 
 
-def parser(site_file: str) -> list:
+def parser() -> list:
     """Получаем необходимый контент из файла."""
 
     #  Создаем экземпляр класс BeautifulSoup для работы с DOM.
@@ -136,7 +143,7 @@ def parser(site_file: str) -> list:
         vacancies_data['hash'] = _hash
         total_info.append(vacancies_data)
         # Очищение файла.
-    with open('site_file', 'w', encoding='utf-8') as file:
+    with open(site_file, 'w', encoding='utf-8') as file:
         file.write('')
     return total_info
 
@@ -155,7 +162,7 @@ def mongo_save(database, data):
                 print(f"Document with id = {vac['_id']} already exist")
 
 
-total_vacancy_result = parser('site.html')
+total_vacancy_result = parser()
 vacancy = db.vacancy
 
 
