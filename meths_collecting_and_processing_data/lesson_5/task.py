@@ -79,7 +79,6 @@ def letter_data(dr):
                        'Тема': theme,
                        'Дата': date,
                        'Содержание': text}
-        pprint(letter_dict)
         res.append(letter_dict)
     return res
 
