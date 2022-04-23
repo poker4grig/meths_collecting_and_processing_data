@@ -11,6 +11,7 @@ from scrapy.utils.python import to_bytes
 from itemadapter import ItemAdapter
 from scrapy.pipelines.images import ImagesPipeline
 from pymongo import MongoClient
+from pymongo.errors import DuplicateKeyError
 
 
 class CastoramaPipeline:
@@ -20,11 +21,11 @@ class CastoramaPipeline:
 
     def process_item(self, item, spider):
         collection = self.mongobase[spider.name]
-        if collection.find_one({'url': item['url']}):
-            print(f'Document with url = {item["url"]} already exist')
-        else:
+        item['_id'] = item['photos'][0]['checksum']
+        try:
             collection.insert_one(item)
-            print(f'Insert link {item["url"]} complete')
+        except DuplicateKeyError as e:
+            print(e)
         return item
 
 
