@@ -17,5 +17,5 @@ class InstagramPipeline:
     def process_item(self, item, spider):
         # print()
         collection = self.mongobase[item.get('username')]
-        # collection.insert_one(item)
+        collection.insert_one(item)
         return item

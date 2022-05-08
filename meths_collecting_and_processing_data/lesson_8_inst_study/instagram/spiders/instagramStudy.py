@@ -92,8 +92,6 @@ class InstagramstudySpider(scrapy.Spider):
                                       'User-Agent': 'Instagram 155.0.0.37.107'})
 
 
-
-
     def fetch_csrf_token(self, text):
         """ Get csrf-token for auth """
         matched = re.search('\"csrf_token\":\"\\w+\"', text).group()
