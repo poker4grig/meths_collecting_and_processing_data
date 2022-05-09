@@ -89,7 +89,7 @@ class InstagramcomSpider(scrapy.Spider):
             variables['max_id'] = j_data.get('next_max_id')
             url_followings = f'{self.inst_friendships_link}/{user_id}/followings/?{urlencode(variables)}&search_surface=follow_list_page'
             yield response.follow(url_followings,
-                                  callback=self.user_following_parse,
+                                  callback=self.user_followings_parse,
                                   cb_kwargs={'username': username,
                                              'user_id': user_id,
                                              'variables': deepcopy(variables)},
